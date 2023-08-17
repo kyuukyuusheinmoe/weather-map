@@ -1,0 +1,28 @@
+# Dependency directories
+/node_modules
+
+# Lock files
+/package-lock.json
+/yarn.lock
+
+# Environment files
+/.env.local
+/.env.development.local
+/.env.test.local
+/.env.production.local
+
+# Compiled output
+/build
+/dist
+
+# IDE and editor files
+/.vscode
+.idea
+*.iml
+
+# Miscellaneous
+/.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-error.log*
