@@ -1,15 +1,18 @@
 import React from "react";
-import Map from "./components/Map";
 import './styles/global.css'
+import Search from "./components/Search";
+import Layout from "./containers/Layout";
+import Chart from './components/Chart'
 
 const App = () =>{
     return (<>
-                <h1 className="text-red-500">
-                    Welcome to Weather Map App
-                </h1>
-                <div>
-                    <Map location={{name:"Yangon", latitude: 16.871311, longitude: 96.199379}}/>
-                </div>
+                <Layout>
+                    <h1 className="text-blue-500 text-center p-1">
+                        Welcome to Weather Map App
+                    </h1>
+                    <Search/>
+                    {/* <Chart/> */}
+                </Layout>
             </>
     )
 }
