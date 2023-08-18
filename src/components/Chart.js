@@ -13,9 +13,9 @@ const WeatherChart = () => {
   }, [location])
 
   return (
-    <div className='chart-container w-full inset-x-0 max-w-screen-md mx-auto overflow-x-auto'>
-        <ResponsiveContainer width="90%" height={400}>
-        {temperatureData ? <LineChart width={500} height={300} data={temperatureData}>
+    <div className='chart-container w-full inset-x-0 max-w-screen-md mx-auto overflow-x-hidden'>
+        <ResponsiveContainer width="100%" height={400}>
+        {!temperatureData.loading ? <LineChart width={500} height={300} data={temperatureData.data}>
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
@@ -23,7 +23,7 @@ const WeatherChart = () => {
             <Line type="monotone" dataKey="temperature" stroke="blue" />
         </LineChart>
         : <div class="bg-white p-6 rounded-lg shadow-md animate-pulse">
-                <div class="w-[600px] h-[200px] bg-gray-300 mb-2"></div>
+                <div class="w-full h-[350px] bg-gray-100 mb-2"></div>
             </div>}
         </ResponsiveContainer>
     </div>

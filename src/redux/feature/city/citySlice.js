@@ -7,7 +7,7 @@ const initialState = {
         lat: 16.7950, 
         lng: 96.1600, 
     },
-    temperatureData: null,
+    temperatureData: {loading : true},
     todayTemp: null
 }
 export const citySlice = createSlice({
@@ -19,8 +19,11 @@ export const citySlice = createSlice({
         }
     },
     extraReducers: (builder) => {
+        builder.addCase(fetchCityTemperature.pending, (state, action)=> {
+            return ({...state, temperatureData: {loading: true}})
+        });
         builder.addCase(fetchCityTemperature.fulfilled, (state, action) => {
-          return ({...state, temperatureData: [...action.payload?.temperatureData], todayTemp: action.payload?.todayTemp})
+          return ({...state, temperatureData: {loading: false, data: [...action.payload?.temperatureData]}, todayTemp: action.payload?.todayTemp})
         })
     },
 })
