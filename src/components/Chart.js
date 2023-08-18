@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { fetchCityTemperature } from '../redux/feature/city/cityAPI';
-import moment from 'moment';
 
 const WeatherChart = () => {
 
@@ -19,7 +18,6 @@ const WeatherChart = () => {
         {temperatureData ? <LineChart width={500} height={300} data={temperatureData}>
             <XAxis dataKey="name" />
             <YAxis />
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="temperature" stroke="blue" />
