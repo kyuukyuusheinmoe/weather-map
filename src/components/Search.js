@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import cities from '../../cities.json'
 import { useDispatch } from 'react-redux'
 import { updateCity } from '../redux/feature/city/citySlice'
@@ -9,6 +9,7 @@ function Search() {
     const [debounceInputValue, setDebounceInputValue] = useState("")
     const [suggestions, setSuggestions] = useState([])
     const dispatch = useDispatch()
+    const inputRef = useRef(null)
 
     useEffect(()=> {
         const delayInputTimeoutId = setTimeout(()=> {
@@ -30,7 +31,10 @@ function Search() {
 
     const handleSuggestionClick = (item) => {
         dispatch(updateCity({name : item.city, lat: item.lat, lng: item.lng}))
-        setInputValue(item.city)
+        if (inputRef.current) {
+        inputRef.current.value = item.city
+        }
+        setSuggestions([])
         dispatch(fetchCityTemperature({lat: item.lat, lng: item.lng}))
     }
 
@@ -38,7 +42,7 @@ function Search() {
     <>
         <div className='relative'>
             <div className="bg-white rounded-lg relative p-4">
-                <input type="text" value={inputValue} class="w-full p-2 rounded-2xl border focus:outline-none focus:border-blue-500" placeholder='Search Location' onChange={handleInputChange}/>
+                <input type="text" ref={inputRef} class="w-full p-2 rounded-2xl border focus:outline-none focus:border-blue-500" placeholder='Search Location' onChange={handleInputChange}/>
             </div>
             <div className='absolute top-[3.7rem] w-full inset-x-0 max-w-screen-md mx-auto overflow-x-auto px-4'>
                 {suggestions?.length ? 
