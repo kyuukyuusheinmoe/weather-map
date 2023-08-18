@@ -3,27 +3,21 @@ import cities from '../../cities.json'
 import { useDispatch } from 'react-redux'
 import { updateCity } from '../redux/feature/city/citySlice'
 import { fetchCityTemperature } from '../redux/feature/city/cityAPI'
+import { XMarkIcon } from '@heroicons/react/24/solid'
+
 
 function Search() {
     const [inputValue, setInputValue] = useState("")
-    const [debounceInputValue, setDebounceInputValue] = useState("")
     const [suggestions, setSuggestions] = useState([])
     const dispatch = useDispatch()
     const inputRef = useRef(null)
 
     useEffect(()=> {
-        const delayInputTimeoutId = setTimeout(()=> {
-                setDebounceInputValue(inputValue)
-            }, 500)
-        return () => {clearTimeout(delayInputTimeoutId)}
-    }, [inputValue])
-
-    useEffect(()=> {
-        const seartchItems = debounceInputValue.length > 2 ? cities.filter(item => {
-            return item.city.toLowerCase().includes(debounceInputValue.toLowerCase())
+        const seartchItems = inputValue.length > 2 ? cities.filter(item => {
+            return item.city.toLowerCase().includes(inputValue.toLowerCase())
         }) : [];
           setSuggestions(seartchItems)
-    }, [debounceInputValue])
+    }, [inputValue])
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value)
@@ -38,12 +32,20 @@ function Search() {
         dispatch(fetchCityTemperature({lat: item.lat, lng: item.lng}))
     }
 
+    const handleRemove = () => {
+        setInputValue("")
+        if (inputRef.current) {
+            inputRef.current.value = ""
+        }
+    }
+
   return (
     <>
         <div className='relative'>
-            <div className="bg-white rounded-lg relative p-4">
+            <span className="flex items-center bg-white rounded-lg relative p-4">
                 <input type="text" ref={inputRef} class="w-full p-2 rounded-2xl border focus:outline-none focus:border-blue-500" placeholder='Search Location' onChange={handleInputChange}/>
-            </div>
+                <XMarkIcon className={`${inputValue.length < 1 && "hidden" } absolute right-5 cursor-pointer w-5 h-5`} onClick={handleRemove} />
+            </span>
             <div className='absolute top-[3.7rem] w-full inset-x-0 max-w-screen-md mx-auto overflow-x-auto px-4'>
                 {suggestions?.length ? 
                 <ul className="bg-gray-50 rounded-2xl px-4">
